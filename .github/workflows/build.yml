@@ -42,7 +42,7 @@ jobs:
         export IS_CI=true
         bash build-X01BD.sh
         if [ -e $(pwd)/out/.config ]; then
-          mv out/.config defconfig
+          mv out/.config out/defconfig
         fi
       working-directory: kernel_root
 
@@ -57,7 +57,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Defconfig-RSU_X01BDA
-        path: kernel_rootout/defconfig
+        path: kernel_root/out/defconfig
 
     - name: Upload AnyKernel3
       uses: actions/upload-artifact@v4
