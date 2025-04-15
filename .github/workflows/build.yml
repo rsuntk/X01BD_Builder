@@ -39,6 +39,7 @@ jobs:
         if [[ "${{ github.event.inputs.KSU }}" = "true" ]]; then
           curl -LSs "https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh" | bash -s main
         fi
+        export IS_CI=true
         bash build-X01BD.sh
       working-directory: kernel_root
 
