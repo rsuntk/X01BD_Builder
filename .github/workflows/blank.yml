@@ -1,0 +1,75 @@
+name: Build Kernel
+on:
+  workflow_dispatch:
+    inputs:
+      BRANCH:
+        description: Kernel branch
+        default: 'master'
+        required: true
+      DEFCONFIG:
+        description: Kernel Defconfig
+        default: 'rsuntk-a12s_defconfig'
+        required: true
+      BUILD_TARGET:
+        description: 'Build target'
+        required: true
+        default: 'kernel'
+        type: choice
+        options:
+          - kernel
+          - defconfig
+      KSU:
+        description: Add KernelSU support
+        type: boolean
+        
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: secureEnvironment
+    steps:
+    - name: Get date
+      id: rundate
+      run: sudo rm /etc/localtime && sudo ln -s /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && echo "REPO_DATE=`date`" >> $GITHUB_OUTPUT
+    
+    - uses: actions/checkout@v4
+      with:
+        path: kernel_root
+        repository: rsuntk/kernel_asus_sdm660-4.19
+        ref: ${{ github.event.inputs.BRANCH }}
+        show-progress: false
+        fetch-depth: 1
+
+    - name: Prepare dependencies
+      run: |
+        sudo apt update -y
+        sudo apt install bc cpio flex bison aptitude git python-is-python3 tar perl wget curl lz4 -y
+        sudo aptitude install libssl-dev -y
+
+    - name: Build kernel
+      id: buildKernel
+      run: |
+        if [[ "${{ github.event.inputs.KSU }}" = "true" ]]; then
+          curl -LSs "https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh" | bash -s main
+        fi
+        bash build-X01BD.sh
+      working-directory: kernel_root
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Build-RSU_X01BDA
+        path: |
+          kernel_root/out/arch/arm64/boot/*
+
+    - name: Upload AnyKernel3
+      uses: actions/upload-artifact@v4
+      with:
+        name: AnyKernel3-RSU_X01BDA
+        path: kernel_root/AnyKernel3/*
+        compression-level: 9
+
+    - name: Cleanup useless files
+      continue-on-error: true
+      run: |
+        rm out/vmlinux.o out/vmlinux out/System.map
+      working-directory: kernel_root
