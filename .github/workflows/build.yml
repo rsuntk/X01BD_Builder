@@ -6,18 +6,6 @@ on:
         description: Kernel branch
         default: 'master'
         required: true
-      DEFCONFIG:
-        description: Kernel Defconfig
-        default: 'rsuntk-a12s_defconfig'
-        required: true
-      BUILD_TARGET:
-        description: 'Build target'
-        required: true
-        default: 'kernel'
-        type: choice
-        options:
-          - kernel
-          - defconfig
       KSU:
         description: Add KernelSU support
         type: boolean
