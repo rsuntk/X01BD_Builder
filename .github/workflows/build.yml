@@ -50,14 +50,14 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Build-RSU_X01BDA
-        path: |
-          kernel_root/out/arch/arm64/boot/*
+        path: kernel_root/out/arch/arm64/boot/*
+        compression-level: 9
 
     - name: Upload configs
       uses: actions/upload-artifact@v4
       with:
         name: Defconfig-RSU_X01BDA
-        path: out/defconfig
+        path: kernel_rootout/defconfig
 
     - name: Upload AnyKernel3
       uses: actions/upload-artifact@v4
