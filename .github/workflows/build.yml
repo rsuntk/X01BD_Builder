@@ -4,7 +4,7 @@ on:
     inputs:
       BRANCH:
         description: Kernel branch
-        default: 'base-new'
+        default: 'master'
         required: true
       KSU:
         description: Add KernelSU support
