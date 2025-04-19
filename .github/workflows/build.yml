@@ -2,6 +2,10 @@ name: Build Kernel
 on:
   workflow_dispatch:
     inputs:
+      REPO:
+        description: Kernel Repo
+        default: 'rsuntk/android_kernel_asus_sdm660-4.19'
+        required: true
       BRANCH:
         description: Kernel branch
         default: 'rsuntk'
@@ -22,7 +26,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         path: kernel_root
-        repository: rsuntk/android_kernel_asus_sdm660-4.19
+        repository: ${{ github.event.inputs.REPO }}
         ref: ${{ github.event.inputs.BRANCH }}
         show-progress: false
         fetch-depth: 1
