@@ -41,7 +41,7 @@ jobs:
       id: buildKernel
       run: |
         if [[ "${{ github.event.inputs.KSU }}" = "true" ]]; then
-          curl -LSs "https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh" | bash -s main
+          curl -LSs "https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh" | bash -s compat_ptr
         fi
         export IS_CI=true
         bash build-X01BD.sh
