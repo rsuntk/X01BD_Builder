@@ -37,24 +37,33 @@ jobs:
         sudo apt install bc cpio flex bison aptitude git python-is-python3 tar perl wget curl lz4 -y
         sudo aptitude install libssl-dev -y
 
-    - name: Build kernel
+    - name: Regen defconfig
       id: buildKernel
+      run: |
+        export IS_CI=true
+        git clone https://github.com/rsuntk/${GITHUB_REPOSITORY#*/} ~/tmp_repo --single-branch
+        mv ~/tmp_repo/build.sh .
+        bash build.sh -r
+        gitsha1=$(git rev-parse --short HEAD)
+        buildDetails="`make kernelversion`-rsuntk-Ratibor-X01BD_`echo $gitsha1`-`date +'%Y%m%d%H%M%S'`" && echo "buildDetails=$buildDetails" >> $GITHUB_OUTPUT
+
+    - name: Upload configs
+      uses: actions/upload-artifact@v4
+      with:
+        name: Defconfig-${{ steps.buildKernel.outputs.buildDetails }}
+        path: kernel_root/arch/arm64/configs/rsuntk-X01BD_defconfig
+
+    - name: Build kernel
       run: |
         if [[ "${{ github.event.inputs.KSU }}" = "true" ]]; then
           curl -LSs "https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh" | bash -s main
         fi
-        export IS_CI=true
-        git clone https://github.com/rsuntk/${GITHUB_REPOSITORY#*/} ~/tmp_repo --single-branch
-        mv ~/tmp_repo/build.sh .
-        bash ./build.sh -r
         bash ./build.sh
         if [ -e $(pwd)/out/.config ]; then
           mv out/.config out/defconfig
         fi
         # Reduce the size
         rm out/arch/arm64/boot/Image
-        gitsha1=$(git rev-parse --short HEAD)
-        buildDetails="`make kernelversion`-rsuntk-Ratibor-X01BD_`echo $gitsha1`-`date +'%Y%m%d%H%M%S'`" && echo "buildDetails=$buildDetails" >> $GITHUB_OUTPUT
       working-directory: kernel_root
 
     - name: Upload artifacts
@@ -63,12 +72,6 @@ jobs:
         name: Build-${{ steps.buildKernel.outputs.buildDetails }}
         path: kernel_root/out/arch/arm64/boot/*
         compression-level: 9
-
-    - name: Upload configs
-      uses: actions/upload-artifact@v4
-      with:
-        name: Defconfig-${{ steps.buildKernel.outputs.buildDetails }}
-        path: kernel_root/out/defconfig
 
     - name: Upload AnyKernel3
       uses: actions/upload-artifact@v4
