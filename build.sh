@@ -4,9 +4,6 @@ SECONDS=0
 ZIPNAME="rsuntk_Ratibor-$(date '+%Y%m%d-%H%M').zip"
 DEFCONFIG="asus/rsuntk-X01BD_defconfig"
 
-# if unset
-[ -z $IS_CI ] && IS_CI=false
-
 if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
    head=$(git rev-parse --verify HEAD 2>/dev/null); then
 	ZIPNAME="${ZIPNAME::-4}-$(echo $head | cut -c1-8).zip"
@@ -73,9 +70,8 @@ cd AnyKernel3
 sed -i "s/BLOCK=.*/BLOCK=\/dev\/block\/bootdevice\/by-name\/boot;/" "anykernel.sh"
 zip -r9 "../$ZIPNAME" * -x '*.git*' README.md *placeholder
 cd ..
-if [ "$IS_CI" = "false" ]; then 
-rm -rf AnyKernel3
-rm -rf out/arch/arm64/boot
+if [ "$DO_CLEAN" = "true" ]; then 
+rm -rf AnyKernel3 out/arch/arm64/boot
 fi
 echo -e "\nCompleted in $((SECONDS / 60)) minute(s) and $((SECONDS % 60)) second(s) !"
 echo "Zip: $ZIPNAME"
