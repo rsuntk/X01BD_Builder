@@ -46,7 +46,7 @@ CLANG_TRIPLE=aarch64-linux-gnu-
 "
 
 if [[ $1 = "-r" || $1 = "--regen" ]]; then
-make $(echo $BUILD_FLAGS) asus/rsuntk-X01BD_defconfig defconfig
+make $(echo $BUILD_FLAGS) defconfig asus/rsuntk-X01BD_defconfig
 cp out/defconfig arch/arm64/configs/$DEFCONFIG
 echo -e "\nRegened defconfig succesfully!"
 exit
