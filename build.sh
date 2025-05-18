@@ -2,7 +2,7 @@ export PATH="$HOME/zyc-clang/bin:$PATH"
 export LD_LIBRARY_PATH="$HOME/zyc-clang/lib"
 SECONDS=0
 ZIPNAME="rsuntk_Ratibor-$(date '+%Y%m%d-%H%M').zip"
-DEFCONFIG="asus/rsuntk-X01BD_defconfig"
+DEFCONFIG="rsuntk-X01BD_defconfig"
 
 # if unset
 [ -z $IS_CI ] && IS_CI=false
@@ -29,7 +29,7 @@ export KBUILD_BUILD_USER=$USER
 export KBUILD_BUILD_HOST=$HOSTNAME
 
 if [[ $1 = "-r" || $1 = "--regen" ]]; then
-make O=out ARCH=arm64 $DEFCONFIG savedefconfig
+make O=out ARCH=arm64 asus/rsuntk-X01BD_defconfig savedefconfig
 cp out/defconfig arch/arm64/configs/$DEFCONFIG
 echo -e "\nRegened defconfig succesfully!"
 exit
