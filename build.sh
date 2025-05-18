@@ -73,10 +73,12 @@ cd AnyKernel3
 sed -i "s/BLOCK=.*/BLOCK=\/dev\/block\/bootdevice\/by-name\/boot;/" "anykernel.sh"
 zip -r9 "../$ZIPNAME" * -x '*.git*' README.md *placeholder
 cd ..
+if [ "$IS_CI" = "false" ]; then 
 rm -rf AnyKernel3
+rm -rf out/arch/arm64/boot
+fi
 echo -e "\nCompleted in $((SECONDS / 60)) minute(s) and $((SECONDS % 60)) second(s) !"
 echo "Zip: $ZIPNAME"
-rm -rf out/arch/arm64/boot
 else
 echo -e "\nCompilation failed!"
 fi
