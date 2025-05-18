@@ -41,10 +41,10 @@ jobs:
       id: buildKernel
       run: |
         if [[ "${{ github.event.inputs.KSU }}" = "true" ]]; then
-          curl -LSs "https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh" | bash -s dynamic_ptr
+          curl -LSs "https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh" | bash -s main
         fi
         export IS_CI=true
-        BUILD_SH=$(find /home/runner/work -type f -name "build.sh")
+        BUILD_SH=$(find /home -type f -name "build.sh")
         echo "Build script: $BUILD_SH"
         mv $BUILD_SH . && bash ./build.sh
         if [ -e $(pwd)/out/.config ]; then
