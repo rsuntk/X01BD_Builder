@@ -69,8 +69,6 @@ jobs:
         if [ -e $(pwd)/out/.config ]; then
           mv out/.config out/defconfig
         fi
-        # Reduce the size
-        rm out/arch/arm64/boot/Image
       working-directory: kernel_root
 
     - name: Upload artifacts
