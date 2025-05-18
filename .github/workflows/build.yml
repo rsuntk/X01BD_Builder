@@ -46,6 +46,7 @@ jobs:
         bash build.sh -r
         gitsha1=$(git rev-parse --short HEAD)
         buildDetails="`make kernelversion`-rsuntk-Ratibor-X01BD_`echo $gitsha1`-`date +'%Y%m%d%H%M%S'`" && echo "buildDetails=$buildDetails" >> $GITHUB_OUTPUT
+      working-directory: kernel_root
 
     - name: Upload configs
       uses: actions/upload-artifact@v4
