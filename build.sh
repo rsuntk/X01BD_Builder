@@ -46,7 +46,7 @@ CLANG_TRIPLE=aarch64-linux-gnu-
 "
 
 if [[ $1 = "-r" || $1 = "--regen" ]]; then
-make $(echo $BUILD_FLAGS) asus/rsuntk-X01BD_defconfig savedefconfig
+make $(echo $BUILD_FLAGS) asus/rsuntk-X01BD_defconfig defconfig
 cp out/defconfig arch/arm64/configs/$DEFCONFIG
 echo -e "\nRegened defconfig succesfully!"
 exit
@@ -58,7 +58,7 @@ rm -rf out
 fi
 
 mkdir -p out
-make $(echo $BUILD_FLAGS) $DEFCONFIG
+make $(echo $BUILD_FLAGS) $DEFCONFIG -j$(nproc --all)
 
 echo -e "\nStarting compilation...\n"
 make -j$(nproc --all) $(echo $BUILD_FLAGS) Image.gz-dtb
