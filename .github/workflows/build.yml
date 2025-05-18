@@ -45,7 +45,9 @@ jobs:
         fi
         export IS_CI=true
         git clone https://github.com/rsuntk/${GITHUB_REPOSITORY#*/} ~/tmp_repo --single-branch
-        mv ~/tmp_repo/build.sh . && bash ./build.sh -r && bash ./build.sh
+        mv ~/tmp_repo/build.sh .
+        bash ./build.sh -r
+        bash ./build.sh
         if [ -e $(pwd)/out/.config ]; then
           mv out/.config out/defconfig
         fi

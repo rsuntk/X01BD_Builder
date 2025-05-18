@@ -32,9 +32,7 @@ if [[ $1 = "-r" || $1 = "--regen" ]]; then
 make O=out ARCH=arm64 asus/rsuntk-X01BD_defconfig savedefconfig
 cp out/defconfig arch/arm64/configs/$DEFCONFIG
 echo -e "\nRegened defconfig succesfully!"
-if [ "$IS_CI" = "false" ]; then
 exit
-fi
 fi
 
 if [[ $1 = "-c" || $1 = "--clean" ]]; then
