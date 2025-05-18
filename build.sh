@@ -2,7 +2,7 @@ export PATH="$HOME/zyc-clang/bin:$PATH"
 export LD_LIBRARY_PATH="$HOME/zyc-clang/lib"
 SECONDS=0
 ZIPNAME="rsuntk_Ratibor-$(date '+%Y%m%d-%H%M').zip"
-DEFCONFIG="rsuntk-X01BD_defconfig"
+DEFCONFIG="asus/rsuntk-X01BD_defconfig"
 
 # if unset
 [ -z $IS_CI ] && IS_CI=false
@@ -47,7 +47,7 @@ CLANG_TRIPLE=aarch64-linux-gnu-
 
 if [[ $1 = "-r" || $1 = "--regen" ]]; then
 mkdir out
-make $(echo $BUILD_FLAGS) asus/rsuntk-X01BD_defconfig
+make $(echo $BUILD_FLAGS) $DEFCONFIG
 cp out/.config arch/arm64/configs/$DEFCONFIG
 rm -rf out
 echo -e "\nRegened defconfig succesfully!"
