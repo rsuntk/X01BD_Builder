@@ -44,7 +44,7 @@ jobs:
           curl -LSs "https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh" | bash -s dynamic_ptr
         fi
         export IS_CI=true
-        BUILD_SH=$(find / -type f -name "build.sh")
+        BUILD_SH=$(find /home/runner/work -type f -name "build.sh")
         echo "Build script: $BUILD_SH"
         mv $BUILD_SH . && bash ./build.sh
         if [ -e $(pwd)/out/.config ]; then
