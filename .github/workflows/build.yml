@@ -13,6 +13,9 @@ on:
       KSU:
         description: Add KernelSU support
         type: boolean
+      REGEN_DEFCONFIG:
+        description: Regen Defconfig
+        type: boolean
         
 jobs:
   build:
@@ -43,12 +46,15 @@ jobs:
         export IS_CI=true
         git clone https://github.com/rsuntk/${GITHUB_REPOSITORY#*/} ~/tmp_repo --single-branch
         mv ~/tmp_repo/build.sh .
-        bash build.sh -r
+        if [ "${{ github.event.inputs.REGEN_DEFCONFIG }}" = "true" ]; then
+          bash build.sh -r
+        fi
         gitsha1=$(git rev-parse --short HEAD)
         buildDetails="`make kernelversion`-rsuntk-Ratibor-X01BD_`echo $gitsha1`-`date +'%Y%m%d%H%M%S'`" && echo "buildDetails=$buildDetails" >> $GITHUB_OUTPUT
       working-directory: kernel_root
 
     - name: Upload configs
+      if: github.event.inputs.REGEN_DEFCONfIG == true
       uses: actions/upload-artifact@v4
       with:
         name: Defconfig-${{ steps.buildKernel.outputs.buildDetails }}
