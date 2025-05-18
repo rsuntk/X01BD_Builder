@@ -14,10 +14,10 @@ fi
 
 if ! [ -d "$HOME/zyc-clang" ]; then
 echo "ZyC Clang not found! Cloning..."
-wget -q  $(curl https://raw.githubusercontent.com/ZyCromerZ/Clang/main/Clang-main-link.txt 2>/dev/null) -O "ZyC-Clang-21.tar.gz"
+wget -q  $(curl https://raw.githubusercontent.com/ZyCromerZ/Clang/main/Clang-16-lastbuild.txt.txt 2>/dev/null) -O "ZyC-Clang.tar.gz"
 mkdir ~/zyc-clang
-tar -xf ZyC-Clang-21.tar.gz -C ~/zyc-clang
-rm -rf ZyC-Clang-21.tar.gz
+tar -xf ZyC-Clang.tar.gz -C ~/zyc-clang
+rm -rf ZyC-Clang.tar.gz
 fi
 
 USER="rsuntk"
