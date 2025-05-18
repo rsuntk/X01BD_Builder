@@ -28,20 +28,6 @@ export BUILD_HOSTNAME=$HOSTNAME
 export KBUILD_BUILD_USER=$USER
 export KBUILD_BUILD_HOST=$HOSTNAME
 
-if [[ $1 = "-r" || $1 = "--regen" ]]; then
-make O=out ARCH=arm64 asus/rsuntk-X01BD_defconfig savedefconfig
-cp out/defconfig arch/arm64/configs/$DEFCONFIG
-echo -e "\nRegened defconfig succesfully!"
-if [ "$IS_CI" = "false" ]; then
-exit
-fi
-fi
-
-if [[ $1 = "-c" || $1 = "--clean" ]]; then
-echo -e "\nClean build!"
-rm -rf out
-fi
-
 BUILD_FLAGS="
 O=out
 ARCH=arm64
@@ -58,6 +44,18 @@ CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 CROSS_COMPILE_COMPAT=$CROSS_COMPILE_ARM32
 CLANG_TRIPLE=aarch64-linux-gnu-
 "
+
+if [[ $1 = "-r" || $1 = "--regen" ]]; then
+make $(echo $BUILD_FLAGS) asus/rsuntk-X01BD_defconfig savedefconfig
+cp out/defconfig arch/arm64/configs/$DEFCONFIG
+echo -e "\nRegened defconfig succesfully!"
+exit
+fi
+
+if [[ $1 = "-c" || $1 = "--clean" ]]; then
+echo -e "\nClean build!"
+rm -rf out
+fi
 
 mkdir -p out
 make $(echo $BUILD_FLAGS) $DEFCONFIG
