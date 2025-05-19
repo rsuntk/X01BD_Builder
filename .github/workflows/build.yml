@@ -88,6 +88,13 @@ jobs:
         path: kernel_root/AnyKernel3/*
         compression-level: 9
 
+    - name: Upload configs complete
+      continue-on-error: true
+      uses: actions/upload-artifact@v4
+      with:
+        name: Defconfig-${{ steps.buildKernel.outputs.buildDetails }}
+        path: kernel_root/out/defconfig
+
     - name: Cleanup useless files
       continue-on-error: true
       run: |
