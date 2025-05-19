@@ -11,7 +11,7 @@ fi
 
 if ! [ -d "$HOME/zyc-clang" ]; then
 echo "ZyC Clang not found! Cloning..."
-wget -q  $(curl https://raw.githubusercontent.com/ZyCromerZ/Clang/main/Clang-main-link.txt 2>/dev/null) -O "ZyC-Clang.tar.gz"
+wget -q https://github.com/ZyCromerZ/Clang/releases/download/21.0.0git-20250314-release/Clang-21.0.0git-20250314.tar.gz -O "ZyC-Clang.tar.gz"
 mkdir ~/zyc-clang
 tar -xf ZyC-Clang.tar.gz -C ~/zyc-clang
 rm -rf ZyC-Clang.tar.gz
