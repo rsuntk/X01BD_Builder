@@ -54,7 +54,7 @@ jobs:
       working-directory: kernel_root
 
     - name: Upload configs
-      if: github.event.inputs.REGEN_DEFCONfIG == true
+      if: github.event.inputs.REGEN_DEFCONFIG == true
       uses: actions/upload-artifact@v4
       with:
         name: Defconfig-${{ steps.buildKernel.outputs.buildDetails }}
