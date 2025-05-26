@@ -13,6 +13,10 @@ on:
       KSU:
         description: Add KernelSU support
         type: boolean
+      KSU_BRANCH:
+        description: KernelSU branch
+        default: 'main'
+        required: true
       REGEN_DEFCONFIG:
         description: Regen Defconfig
         type: boolean
@@ -63,7 +67,7 @@ jobs:
     - name: Build kernel
       run: |
         if [[ "${{ github.event.inputs.KSU }}" = "true" ]]; then
-          curl -LSs "https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh" | bash -s main
+          curl -LSs "https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh" | bash -s ${{ github.event.inputs.KSU_BRANCH }}
         fi
         bash ./build.sh
         if [ -e $(pwd)/out/.config ]; then
