@@ -8,7 +8,7 @@ on:
         required: true
       BRANCH:
         description: Kernel branch
-        default: 'android-4.19-lts'
+        default: 'Ratibor-Rebased-CIP'
         required: true
       KSU:
         description: Add KernelSU support
