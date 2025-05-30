@@ -2,7 +2,8 @@ export PATH="$HOME/zyc-clang/bin:$PATH"
 export LD_LIBRARY_PATH="$HOME/zyc-clang/lib"
 SECONDS=0
 ZIPNAME="rsuntk_Ratibor-$(date '+%Y%m%d-%H%M').zip"
-DEFCONFIG="asus/rsuntk-X01BD_defconfig"
+
+[ $USE_PERSONAL_DEFCONFIG = "true" ] && DEFCONFIG="rsuntk-X01BD_defconfig" || DEFCONFIG="asus/X01BD_defconfig"
 
 if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
    head=$(git rev-parse --verify HEAD 2>/dev/null); then
