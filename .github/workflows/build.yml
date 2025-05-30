@@ -17,9 +17,10 @@ on:
         description: KernelSU branch
         default: 'main'
         required: true
-      REGEN_DEFCONFIG:
-        description: Regen Defconfig
+      USE_PERSONAL:
+        description: Use Personal defconfig
         type: boolean
+        default: 'true'
         
 jobs:
   build:
@@ -49,23 +50,18 @@ jobs:
       run: |
         export IS_CI=true
         git clone https://github.com/rsuntk/${GITHUB_REPOSITORY#*/} ~/tmp_repo --single-branch
-        mv ~/tmp_repo/build.sh .
-        if [ "${{ github.event.inputs.REGEN_DEFCONFIG }}" = "true" ]; then
-          bash build.sh -r
-        fi
+        mv ~/tmp_repo/build.sh . && mv ~/tmp_repo/rsuntk-X01BD_defconfig kernel_root/arch/arm64/configs/
         gitsha1=$(git rev-parse --short HEAD)
         buildDetails="`make kernelversion`-rsuntk-Ratibor-X01BD_`echo $gitsha1`-`date +'%Y%m%d%H%M%S'`" && echo "buildDetails=$buildDetails" >> $GITHUB_OUTPUT
       working-directory: kernel_root
 
-    - name: Upload configs
-      if: github.event.inputs.REGEN_DEFCONFIG == true
-      uses: actions/upload-artifact@v4
-      with:
-        name: Defconfig-${{ steps.buildKernel.outputs.buildDetails }}
-        path: kernel_root/arch/arm64/configs/rsuntk-X01BD_defconfig
-
     - name: Build kernel
       run: |
+        if [[ "${{ github.event.inputs.USE_PERSONAL }}" = "true" ]]; then
+          export USE_PERSONAL_DEFCONFIG=true
+        else
+          export USE_PERSONAL_DEFCONFIG=false
+        fi
         if [[ "${{ github.event.inputs.KSU }}" = "true" ]]; then
           curl -LSs "https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh" | bash -s ${{ github.event.inputs.KSU_BRANCH }}
         fi
