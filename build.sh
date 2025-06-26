@@ -33,6 +33,9 @@ export CROSS_COMPILE="$HOME/androidcc-4.9/bin/aarch64-linux-android-"
 export CROSS_COMPILE_ARM32="$HOME/arm-gnu/bin/arm-linux-gnueabi-"
 export CROSS_COMPILE_COMPAT=$CROSS_COMPILE_ARM32
 
+export LLVM=1
+export LLVM_IAS=1
+
 BUILD_FLAGS="
 O=out
 ARCH=arm64
