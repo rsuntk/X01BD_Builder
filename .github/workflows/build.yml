@@ -8,7 +8,7 @@ on:
         required: true
       BRANCH:
         description: Kernel branch
-        default: 'Ratibor-Rebased-CIP'
+        default: 'faust-bka'
         required: true
       KSU:
         description: Add KernelSU support
